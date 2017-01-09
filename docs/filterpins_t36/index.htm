@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!-- http://www.convertcsv.com/csv-to-json.htm -->
+<html>
+	<head>
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+			<style>
+					* 
+					{
+						font: 95% Tahoma;
+					}
+					h1 {
+						font-weight: bold;
+					}
+					table, th, td 
+					{
+							margin: 0;
+							border:solid 1px #333333;
+							padding:1px 2px;
+							
+					}
+					th {
+							font-weight:bold;
+					}
+			</style>
+	</head>
+	<body>	
+		<h1>Teensy 3.6</h1>
+		<a href="../">Back</a> <a href="">Reload</a>
+			<p>
+				<input type="text" id="bga_pin" onkeyup="filter(this.id,0)" placeholder="BGA ball">
+				<input type="text" id="digital_pin" onkeyup="filter(this.id,1)" placeholder="Digital pin">
+				<input type="text" id="analog_pin" onkeyup="filter(this.id,2)" placeholder="Analog pin">
+				<input type="text" id="pin_function" onkeyup="filterfunction(this.id)" placeholder="function">
+			</p>
+			<div id="showData"></div>
+	</body>
+	<script>
+		function filter(inputID,col) {
+			// Declare variables 
+			var input, filter, table, tr, td, i;
+			input = document.getElementById(inputID);
+			filter = input.value.toUpperCase();
+			table = document.getElementById("filterTable");
+			tr = table.getElementsByTagName("tr");
+
+			// Loop through all table rows, and hide those who don't match the search query
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[col];
+				if (td) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				} 
+			}
+		}
+		function filterfunction(inputID) {
+			// Declare variables 
+			var input, filter, table, tr, td, i, hlColor;
+			input = document.getElementById(inputID);
+			filter = input.value.toUpperCase();
+			table = document.getElementById("filterTable");
+			tr = table.getElementsByTagName("tr");
+
+			// Loop through all table rows, and hide those who don't match the search query
+			
+			hlColor = "#CCE6FF";
+			for (i = 1; i < tr.length; i++) {
+
+				if 	((tr[i].getElementsByTagName("td")[3]) && (
+						(tr[i].getElementsByTagName("td")[3].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[4].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[5].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[6].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[7].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[8].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[9].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[10].innerHTML.toUpperCase().indexOf(filter) > -1) ||
+						(tr[i].getElementsByTagName("td")[11].innerHTML.toUpperCase().indexOf(filter) > -1))) {
+					tr[i].style.display = "";
+					
+					if(filter !== "") {
+						if(tr[i].getElementsByTagName("td")[3].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[3].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[3].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[4].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[4].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[4].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[5].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[5].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[5].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[6].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[6].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[6].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[7].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[7].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[7].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[8].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[8].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[8].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[9].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[9].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[9].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[10].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[10].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[10].style.background="white";
+						}
+						if(tr[i].getElementsByTagName("td")[11].innerHTML.toUpperCase().indexOf(filter) > -1) {
+							tr[i].getElementsByTagName("td")[11].style.background=hlColor;
+						} else {
+							tr[i].getElementsByTagName("td")[11].style.background="white";
+						}
+					}
+				} else {
+					tr[i].style.display = "none";
+				}
+				 
+			}
+		}
+		$(document).ready(function () {
+				$.getJSON("board.json", function (data) {
+
+						var arrItems = [];      // THE ARRAY TO STORE JSON ITEMS.
+						$.each(data, function (index, value) {
+								arrItems.push(value);       // PUSH THE VALUES INSIDE THE ARRAY.
+						});
+
+						// EXTRACT VALUE FOR TABLE HEADER.
+						var col = [];
+						for (var i = 0; i < arrItems.length; i++) {
+								for (var key in arrItems[i]) {
+										if (col.indexOf(key) === -1) {
+												col.push(key);
+										}
+								}
+						}
+
+						// CREATE DYNAMIC TABLE.
+						var table = document.createElement("table");
+						table.id = 'filterTable';
+
+						// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+						var tr = table.insertRow(-1);                   // TABLE ROW.
+
+						for (var i = 0; i < col.length; i++) {
+								var th = document.createElement("th");      // TABLE HEADER.
+								th.innerHTML = col[i];
+								switch(i) {
+									case 0: 
+									case 1: 
+									case 2: th.width = "40px"; break;
+									default: th.width = "240px"; break;
+								}
+								tr.appendChild(th);
+						}
+
+						// ADD JSON DATA TO THE TABLE AS ROWS.
+						for (var i = 0; i < arrItems.length; i++) {
+
+								tr = table.insertRow(-1);
+
+								for (var j = 0; j < col.length; j++) {
+										var tabCell = tr.insertCell(-1);
+										tabCell.innerHTML = arrItems[i][col[j]];
+								}
+						}
+
+						// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+						var divContainer = document.getElementById("showData");
+						divContainer.innerHTML = "";
+						divContainer.appendChild(table);
+				});
+		});
+	</script>
+</html>
